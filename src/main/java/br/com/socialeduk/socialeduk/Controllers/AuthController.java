@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.crypto.spec.OAEPParameterSpec;
 import java.security.Key;
 import java.util.Date;
 
@@ -44,6 +45,7 @@ public class AuthController {
     private String generateToken(String email){
         final long expirationTime = 86400000;
         Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
 
         return Jwts.builder()
                 .setSubject(email)

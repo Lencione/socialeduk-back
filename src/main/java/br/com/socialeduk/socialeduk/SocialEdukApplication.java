@@ -11,8 +11,7 @@ public class SocialEdukApplication {
     public static void main(String[] args) {
         SpringApplication.run(SocialEdukApplication.class, args);
     }
-
-    @Autowired
+    
 
     @GetMapping("/teste")
     public String teste(){

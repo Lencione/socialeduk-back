@@ -3,10 +3,7 @@ package br.com.socialeduk.socialeduk.Controllers;
 import br.com.socialeduk.socialeduk.Entities.User;
 import br.com.socialeduk.socialeduk.Services.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -20,11 +17,21 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user){
         try{
-            User registeredUser = userService.registerUser(user);
+            userService.registerUser(user);
             return ResponseEntity.ok("Cadastrado com sucesso!");
         }   catch (RuntimeException e){
             String errorMessage = e.getMessage();
             return ResponseEntity.badRequest().body(errorMessage);
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<User> getUser(@PathVariable long id){
+        try{
+            User user = userService.findById(id);
+            return ResponseEntity.ok(user);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }
