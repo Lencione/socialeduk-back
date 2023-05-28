@@ -1,7 +1,8 @@
 package br.com.socialeduk.socialeduk.Controllers;
 
+import br.com.socialeduk.socialeduk.Dto.Response;
 import br.com.socialeduk.socialeduk.Entities.User;
-import br.com.socialeduk.socialeduk.Requests.LoginRequest;
+import br.com.socialeduk.socialeduk.Dto.LoginRequest;
 import br.com.socialeduk.socialeduk.Services.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,35 +24,22 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/api/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest){
-        User user = authenticateUser(loginRequest);
+    public ResponseEntity<Response> login(@RequestBody LoginRequest loginRequest){
 
-        if(user == null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
+        try{
+            User user = userService.authenticate(loginRequest);
+
+            return ResponseEntity
+                    .ok()
+                    .body(new Response("success", "User authenticate successfull!", user));
+        }catch(Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(new Response("error", e.getMessage(), null));
         }
-
-        return ResponseEntity.ok(generateToken(loginRequest.getEmail()));
     }
 
-    private User authenticateUser(LoginRequest loginRequest) {
-
-        User user = userService.findByEmail(loginRequest.getEmail());
-        if(user == null || !user.getPassword().equals(loginRequest.getPassword())){
-            return null;
-        }
-        return user;
-    }
-
-    private String generateToken(String email){
-        final long expirationTime = 86400000;
-        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
 
-        return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(key)
-                .compact();
-    }
+
 }

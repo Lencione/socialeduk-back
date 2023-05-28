@@ -1,8 +1,12 @@
 package br.com.socialeduk.socialeduk.Services;
 
+import br.com.socialeduk.socialeduk.Dto.LoginRequest;
 import br.com.socialeduk.socialeduk.Entities.User;
 import br.com.socialeduk.socialeduk.Repositories.UserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -13,11 +17,11 @@ public class UserService {
 
     public User registerUser(User user){
         if(userRepository.findByUsername(user.getUsername()) != null){
-            throw new RuntimeException("Nome de usuário já existe!");
+            throw new RuntimeException("Name already exists!");
         }
 
         if(userRepository.findByEmail(user.getEmail()) != null){
-            throw new RuntimeException("Email já cadastrado!");
+            throw new RuntimeException("E-mail already exists!");
         }
 
         return userRepository.save(user);
@@ -26,7 +30,27 @@ public class UserService {
     public User findByEmail(String email){
         return userRepository.findByEmail(email);
     }
-    public User findById(long id){
-        return userRepository.getUserById(id);
+
+    public User authenticate(LoginRequest loginRequest) {
+
+        User user = findByEmail(loginRequest.getEmail());
+        if(user == null || !user.getPassword().equals(loginRequest.getPassword())){
+            throw new RuntimeException("Invalid credentials");
+        }
+        return user;
+    }
+
+    public List<User> getAll(){
+        return userRepository.findAll();
+    }
+
+    public User getUserById(Long id){
+        User user = userRepository.getUserById(id);
+
+        if(user == null){
+            throw new RuntimeException("User not found");
+        }
+        return user;
+
     }
 }
