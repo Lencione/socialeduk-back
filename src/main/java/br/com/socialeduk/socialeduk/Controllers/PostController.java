@@ -31,7 +31,7 @@ public class PostController {
         }
     }
 
-    @PostMapping("/store")
+    @PostMapping("/")
     public ResponseEntity<Response> store(@RequestBody PostRequestDto request){
         try{
             Post post = new Post();

@@ -32,8 +32,16 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Post> post;
+
+    @ManyToMany
+    @JoinTable(
+            name = "friend_requests",
+            joinColumns = @JoinColumn(name = "sender"),
+            inverseJoinColumns = @JoinColumn(name = "receiver")
+    )
+    private List<User> friends;
 
 }

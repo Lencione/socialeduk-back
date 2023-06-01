@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Table(name = "friend_requests")
 public class FriendRequest {
     @Id
