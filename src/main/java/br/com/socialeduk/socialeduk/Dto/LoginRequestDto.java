@@ -1,10 +1,9 @@
 package br.com.socialeduk.socialeduk.Dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
+public class LoginRequestDto {
     private String email;
     private String password;
 }

@@ -25,9 +25,7 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity<Response> get(@PathVariable Long id){
         try{
-            Post post = postService.get(id);
-            post.getUser();
-            return ResponseEntity.ok().body(new Response("success", "Post retrieved successfull!", post ));
+            return ResponseEntity.ok().body(new Response("success", "Post retrieved successfull!", postService.get(id) ));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response("error", e.getMessage(), null));
         }
@@ -45,6 +43,7 @@ public class PostController {
             return ResponseEntity.badRequest().body(new Response("error", e.getMessage(), null));
         }
     }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Response> delete(@PathVariable Long id){

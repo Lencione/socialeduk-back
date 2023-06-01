@@ -1,12 +1,11 @@
 package br.com.socialeduk.socialeduk.Services;
 
-import br.com.socialeduk.socialeduk.Dto.LoginRequest;
+import br.com.socialeduk.socialeduk.Dto.LoginRequestDto;
 import br.com.socialeduk.socialeduk.Entities.User;
 import br.com.socialeduk.socialeduk.Repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -31,7 +30,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public User authenticate(LoginRequest loginRequest) {
+    public User authenticate(LoginRequestDto loginRequest) {
 
         User user = findByEmail(loginRequest.getEmail());
         if(user == null || !user.getPassword().equals(loginRequest.getPassword())){

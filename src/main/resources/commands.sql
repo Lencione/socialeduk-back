@@ -30,9 +30,66 @@ CREATE TABLE friend_requests (
 -- Tabela "friends"
 CREATE TABLE friends (
     id NUMBER(10) PRIMARY KEY AUTO_INCREMENT,
-    user_id_1 NUMBER(10) NOT NULL,
-    user_id_2 NUMBER(10) NOT NULL,
+    user_id NUMBER(10) NOT NULL,
+    friend_id NUMBER(10) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id_1) REFERENCES users (id),
-    FOREIGN KEY (user_id_2) REFERENCES users (id)
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (friend_id) REFERENCES users (id)
 );
+
+-- Tabela "blocks"
+CREATE TABLE blocked_users(
+    id NUMBER(10) PRIMARY KEY AUTO_INCREMENT,
+    user_id NUMBER(10) NOT NULL,
+    blocked_id NUMBER(10) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (blocked_id) REFERENCES users (id)
+);
+
+INSERT INTO users (username, password, name, email) VALUES ('admin', 'admin', 'Admin', 'admin@admin.com');
+INSERT INTO users (username, password, name, email) VALUES ('user1', 'password', 'Usuário 1', 'user1@dba.com');
+INSERT INTO users (username, password, name, email) VALUES ('user2', 'password', 'Usuário 2', 'user2@dba.com');
+
+INSERT INTO posts (user_id, content) VALUES (1, 'Primeiro post do Admin');
+INSERT INTO posts (user_id, content) VALUES (2, 'Primeiro post do User1');
+INSERT INTO posts (user_id, content) VALUES (3, 'Primeiro post do User2');
+
+-- Admin enviou solicitação para o User1
+INSERT INTO  friend_requests (sender_id, receiver_id) VALUES (1, 2);
+
+-- User1 enviou solicitação para o User2
+INSERT INTO  friend_requests (sender_id, receiver_id) VALUES (2, 3);
+
+-- User1 acetou solicitação do Admin
+INSERT INTO friends (user_id, friend_id) VALUES (1, 2);
+INSERT INTO friends (user_id, friend_id) VALUES (2, 1);
+
+-- User2 aceitou solicitação do User1
+INSERT INTO friends (user_id, friend_id) VALUES (2, 3);
+INSERT INTO friends (user_id, friend_id) VALUES (3, 2);
+
+-- User2 bloqueou o Admin
+INSERT INTO blocked_users (user_id, blocked_id) VALUES (2, 1);
+
+-- Visualizar todos os usuários
+SELECT * FROM users;
+
+-- Visualizar todos os posts do Admin
+SELECT CONTENT,created_at FROM posts WHERE user_id = 1;
+
+--  Visualizar todos os amigos do Admin fazendo inner join com users
+SELECT users.name, users.email FROM users INNER JOIN friends ON users.id = friends.friend_id WHERE friends.user_id = 1;
+
+--  Visualizar todos os amigos do User1 fazendo inner join com users
+SELECT users.name, users.email FROM users INNER JOIN friends ON users.id = friends.friend_id WHERE friends.user_id = 2;
+
+--  Visualizar todos os amigos do User2 fazendo inner join com users
+SELECT users.name, users.email FROM users INNER JOIN friends ON users.id = friends.friend_id WHERE friends.user_id = 3;
+
+--  Visualizar todos os usuários bloqueados do User2 fazendo inner join com users
+SELECT u.name, u.email FROM users u INNER JOIN blocked_users b ON u.id = b.blocked_id WHERE b.user_id = 2;
+
+
+
+

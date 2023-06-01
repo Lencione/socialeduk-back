@@ -16,14 +16,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<Response> register(@RequestBody User user){
-        try{
-            return ResponseEntity.ok().body(new Response("success", "User registered successfull!", userService.registerUser(user)));
-        }   catch (RuntimeException e){
-            return ResponseEntity.badRequest().body(new Response("error", e.getMessage(), null));
-        }
-    }
 
     @GetMapping("/getAll")
     public ResponseEntity<Response> getAll(){
