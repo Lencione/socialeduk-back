@@ -1,5 +1,6 @@
 package br.com.socialeduk.socialeduk.Controllers;
 
+import br.com.socialeduk.socialeduk.Dto.AcceptAndRefuseFriendRequestDto;
 import br.com.socialeduk.socialeduk.Dto.FriendRequestDto;
 import br.com.socialeduk.socialeduk.Dto.Response;
 import br.com.socialeduk.socialeduk.Services.UserService;
@@ -57,12 +58,32 @@ public class UserController {
         }
     }
 
-//    @PostMapping("/refuseFriendRequest")
-//    public ResponseEntity<Response> refuseFriendRequest(@RequestBody FriendRequestDto request){
-//        try{
-//            return ResponseEntity.ok().body(new Response("success", "Friend request recusada!", userService.refuseFriendRequest(request.getSender(),request.getReceiver())));
-//        }catch (Exception e){
-//            return ResponseEntity.ok().body(new Response("error", e.getMessage(), null));
-//        }
-//    }
+    @DeleteMapping("/refuseFriendRequest")
+    public ResponseEntity<Response> refuseFriendRequest(@RequestBody AcceptAndRefuseFriendRequestDto request){
+        try{
+            return ResponseEntity.ok().body(new Response("success", "Friend request refused successfull!", userService.refuseFriendRequest(request)));
+        }catch (Exception e){
+            return ResponseEntity.ok().body(new Response("error", e.getMessage(), null));
+        }
+    }
+
+    @PostMapping("/acceptFriendRequest")
+    public ResponseEntity<Response> acceptFriendRequest(@RequestBody AcceptAndRefuseFriendRequestDto request){
+        try{
+            return ResponseEntity.ok().body(new Response("success", "Friend request accepted successfull!", userService.acceptFriendRequest(request)));
+        }catch (Exception e){
+            return ResponseEntity.ok().body(new Response("error", e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/getFriends/{id}")
+    public ResponseEntity<Response> getFriends(@PathVariable Long id){
+        try{
+            return ResponseEntity.ok().body(new Response("success", "Friends retrieved successfull", userService.getFriends(id)));
+        }catch (Exception e){
+            return ResponseEntity.ok().body(new Response("error", e.getMessage(), null));
+        }
+    }
+
+
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class FriendRequestDto {
-    private Long sender;
-    private Long receiver;
+public class AcceptAndRefuseFriendRequestDto {
+    private Long userId;
+    private Long friendRequestId;
 }

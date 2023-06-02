@@ -1,15 +1,14 @@
 package br.com.socialeduk.socialeduk.Entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "friends")
-public class Friend {
+@Table(name =  "blocked_users")
+public class BlockedUsers{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,10 +18,9 @@ public class Friend {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "friend_id")
+    @JoinColumn(name = "blocked_id")
     private User friend;
 
     @Column(name = "created_at")
     private String created_at;
-
 }

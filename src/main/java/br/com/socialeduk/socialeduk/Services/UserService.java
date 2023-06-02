@@ -1,22 +1,27 @@
 package br.com.socialeduk.socialeduk.Services;
 
+import br.com.socialeduk.socialeduk.Dto.AcceptAndRefuseFriendRequestDto;
 import br.com.socialeduk.socialeduk.Dto.LoginRequestDto;
+import br.com.socialeduk.socialeduk.Entities.Friend;
 import br.com.socialeduk.socialeduk.Entities.FriendRequest;
 import br.com.socialeduk.socialeduk.Entities.User;
+import br.com.socialeduk.socialeduk.Repositories.FriendRepository;
 import br.com.socialeduk.socialeduk.Repositories.FriendRequestRepository;
 import br.com.socialeduk.socialeduk.Repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final FriendRequestRepository friendRequestRepository;
-    public UserService(UserRepository userRepository, FriendRequestRepository friendRequestRepository){
+    private final FriendRepository  friendRepository;
+    public UserService(UserRepository userRepository, FriendRequestRepository friendRequestRepository, FriendRepository friendRepository){
         this.userRepository = userRepository;
         this.friendRequestRepository = friendRequestRepository;
+        this.friendRepository = friendRepository;
     }
 
     public User registerUser(User user){
@@ -81,5 +86,46 @@ public class UserService {
     public List<FriendRequest> getReceivedFriendsRequest(Long id){
         User user = getUserById(id);
         return friendRequestRepository.findByReceiverId(user.getId());
+    }
+
+    public boolean refuseFriendRequest(AcceptAndRefuseFriendRequestDto request){
+
+        FriendRequest friendRequest = friendRequestRepository.getFriendRequestById(request.getFriendRequestId());
+        if(friendRequest == null){
+            throw new RuntimeException("Friend request not found");
+        }
+        if(!friendRequest.getReceiver().getId().equals(request.getUserId())){
+            throw new RuntimeException("Invalid user");
+        }
+        friendRequestRepository.delete(friendRequest);
+        return true;
+    }
+
+    public boolean acceptFriendRequest(AcceptAndRefuseFriendRequestDto request){
+        FriendRequest friendRequest = friendRequestRepository.getFriendRequestById(request.getFriendRequestId());
+        if(friendRequest == null){
+            throw new RuntimeException("Friend request not found");
+        }
+        if(!friendRequest.getReceiver().getId().equals(request.getUserId())){
+            throw new RuntimeException("Invalid user");
+        }
+        Friend friendship = new Friend();
+        friendship.setUser(friendRequest.getSender());
+        friendship.setFriend(friendRequest.getReceiver());
+        friendRepository.save(friendship);
+
+        friendship = new Friend();
+        friendship.setUser(friendRequest.getReceiver());
+        friendship.setFriend(friendRequest.getSender());
+        friendRepository.save(friendship);
+
+        friendRequestRepository.delete(friendRequest);
+
+        return true;
+    }
+
+    public List<User> getFriends(Long id){
+        User user = getUserById(id);
+        return friendRepository.findFriendsByUserId(user.getId());
     }
 }
