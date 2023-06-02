@@ -7,6 +7,7 @@ import br.com.socialeduk.socialeduk.Repositories.FriendRequestRepository;
 import br.com.socialeduk.socialeduk.Repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -70,5 +71,15 @@ public class UserService {
 
         friendRequestRepository.save(friendRequest);
         return true;
+    }
+
+    public List<FriendRequest> getSendFriendsRequest(Long id){
+        User user = getUserById(id);
+        return friendRequestRepository.findBySenderId(user.getId());
+    }
+
+    public List<FriendRequest> getReceivedFriendsRequest(Long id){
+        User user = getUserById(id);
+        return friendRequestRepository.findByReceiverId(user.getId());
     }
 }

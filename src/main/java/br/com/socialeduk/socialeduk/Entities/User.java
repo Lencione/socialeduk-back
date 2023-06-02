@@ -36,12 +36,4 @@ public class User {
     @JsonIgnore
     private List<Post> post;
 
-    @ManyToMany
-    @JoinTable(
-            name = "friend_requests",
-            joinColumns = @JoinColumn(name = "sender"),
-            inverseJoinColumns = @JoinColumn(name = "receiver")
-    )
-    private List<User> friends;
-
 }
