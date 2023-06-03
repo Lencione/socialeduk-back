@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class FriendRequestDto {
+public class BlockAndSendFriendRequestDto {
     private Long sender;
     private Long receiver;
 }

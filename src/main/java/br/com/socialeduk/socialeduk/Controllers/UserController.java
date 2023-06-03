@@ -1,7 +1,7 @@
 package br.com.socialeduk.socialeduk.Controllers;
 
 import br.com.socialeduk.socialeduk.Dto.AcceptAndRefuseFriendRequestDto;
-import br.com.socialeduk.socialeduk.Dto.FriendRequestDto;
+import br.com.socialeduk.socialeduk.Dto.BlockAndSendFriendRequestDto;
 import br.com.socialeduk.socialeduk.Dto.Response;
 import br.com.socialeduk.socialeduk.Services.UserService;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping("/sendFriendRequest")
-    public ResponseEntity<Response> sendFriendRequest(@RequestBody FriendRequestDto request){
+    public ResponseEntity<Response> sendFriendRequest(@RequestBody BlockAndSendFriendRequestDto request){
         try{
             return ResponseEntity.ok().body(new Response("success", "Friend request sent successfull!", userService.sendFriendRequest(request.getSender(),request.getReceiver())));
         }catch(Exception e) {
@@ -85,5 +85,40 @@ public class UserController {
         }
     }
 
+    @PostMapping("/blockUser")
+    public ResponseEntity<Response> blockUser(@RequestBody BlockAndSendFriendRequestDto request){
+        try{
+            return ResponseEntity.ok().body(new Response("success", "User blocked successfull!", userService.blockUser(request.getSender(),request.getReceiver())));
+        }catch (Exception e){
+            return ResponseEntity.ok().body(new Response("error", e.getMessage(), null));
+        }
+    }
 
+    @PostMapping("/unblockUser")
+    public ResponseEntity<Response> unblockUser(@RequestBody BlockAndSendFriendRequestDto request){
+        try{
+            return ResponseEntity.ok().body(new Response("success", "User unblocked successfull!", userService.unblockUser(request.getSender(),request.getReceiver())));
+        }catch (Exception e){
+            return ResponseEntity.ok().body(new Response("error", e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/getBlockedUsers/{id}")
+    public ResponseEntity<Response> getBlockedUsers(@PathVariable Long id){
+        try{
+            return ResponseEntity.ok().body(new Response("success", "Blocked users retrieved successfull!", userService.getBlockedUsers(id)));
+        }catch (Exception e){
+            return ResponseEntity.ok().body(new Response("error", e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/getNotBlockedUsers/{id}")
+    public ResponseEntity<Response> getUsersNotBlocked(@PathVariable Long id, @RequestParam(name = "name", defaultValue = "", required = false)  String name){
+        try{
+            System.out.println(name);
+            return ResponseEntity.ok().body(new Response("success", "Users not blocked retrieved successfull!", userService.getNotBlockedUsers(id, name)));
+        }catch (Exception e){
+            return ResponseEntity.ok().body(new Response("error", e.getMessage(), null));
+        }
+    }
 }
