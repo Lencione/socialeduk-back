@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class PostRequestDto {
-    private Long user_id;
+    private Long userId;
     private String content;
 }

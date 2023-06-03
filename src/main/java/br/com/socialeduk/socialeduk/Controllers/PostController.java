@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.rmi.server.ExportException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -36,7 +34,7 @@ public class PostController {
         try{
             Post post = new Post();
             post.setContent(request.getContent());
-            post.setUser(userService.getUserById(request.getUser_id()));
+            post.setUser(userService.getUserById(request.getUserId()));
             post = postService.store(post);
             return ResponseEntity.ok().body(new Response("success", "Post created successfull", post));
         }catch (Exception e){
@@ -55,10 +53,10 @@ public class PostController {
         }
     }
 
-    @GetMapping("{user_id}/getAll")
-    public ResponseEntity<Response> getAll(@PathVariable Long user_id){
+    @GetMapping("{userId}/getAll")
+    public ResponseEntity<Response> getAll(@PathVariable Long userId){
         try{
-            User user = userService.getUserById(user_id);
+            User user = userService.getUserById(userId);
             List<?> posts = postService.getAllByUserId(user.getId());
             return ResponseEntity.ok().body(new Response("success","Posts retrieved with success!", posts));
         }catch (Exception e){
