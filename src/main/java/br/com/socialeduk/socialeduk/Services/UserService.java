@@ -10,25 +10,20 @@ import br.com.socialeduk.socialeduk.Repositories.BlockedUserRepository;
 import br.com.socialeduk.socialeduk.Repositories.FriendRepository;
 import br.com.socialeduk.socialeduk.Repositories.FriendRequestRepository;
 import br.com.socialeduk.socialeduk.Repositories.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final FriendRequestRepository friendRequestRepository;
     private final FriendRepository  friendRepository;
-
     private final BlockedUserRepository  blockedUserRepository;
-    public UserService(UserRepository userRepository, FriendRequestRepository friendRequestRepository, FriendRepository friendRepository, BlockedUserRepository blockedUserRepository){
-        this.userRepository = userRepository;
-        this.friendRequestRepository = friendRequestRepository;
-        this.friendRepository = friendRepository;
-        this.blockedUserRepository = blockedUserRepository;
-    }
+
 
     public User registerUser(User user){
         if(userRepository.findByUsername(user.getUsername()) != null){

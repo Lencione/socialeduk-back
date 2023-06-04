@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Reference;
 
 import javax.persistence.*;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
 @Data
@@ -25,10 +26,19 @@ public class Post {
     @Column(nullable = false, length = 500)
     private String content;
 
+    @Column(name = "created_at",nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
 //    @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Date();
+    }
 
 }

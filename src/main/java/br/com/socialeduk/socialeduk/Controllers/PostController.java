@@ -64,6 +64,18 @@ public class PostController {
         }
     }
 
+    // get all friends posts paginated
+    @GetMapping("/getAllFriendsPost/{userId}")
+    public ResponseEntity<Response> getAllFriendsPost(@PathVariable Long userId,  @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        try{
+            User user = userService.getUserById(userId);
+            List<Post> posts = postService.getAllByUserFriends(user.getId(), page, size);
+            return ResponseEntity.ok().body(new Response("success","Posts retrieved with success!", posts));
+        }catch (Exception e){
+            return ResponseEntity.ok().body(new Response("error",e.getMessage(), null));
+        }
+    }
+
 
 
 

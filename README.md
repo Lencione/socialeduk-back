@@ -33,8 +33,8 @@
 - `/api/posts/` - `POST` - Create Post by User.
 - - Params: userId, content.
 - `/api/posts/delete/{id}` - `DELETE` - Delete Post.
-- `/api/posts/{userId}/getAll` - `GET` - Get all posts by User Id.
-
+- `/api/posts/{userId}/getAll` - `GET` - Get all posts by User id.
+- `/api/posts/getAllFriendsPost/{userId}` - `GET` - Get all friends posts by User id.
 
 
 

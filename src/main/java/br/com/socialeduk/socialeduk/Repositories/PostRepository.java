@@ -1,7 +1,6 @@
 package br.com.socialeduk.socialeduk.Repositories;
 
 import br.com.socialeduk.socialeduk.Entities.Post;
-import br.com.socialeduk.socialeduk.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

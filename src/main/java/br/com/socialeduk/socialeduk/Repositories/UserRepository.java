@@ -12,8 +12,4 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User findByUsername(String username);
     User findByEmail(String email);
     User getUserById(Long id);
-
-    // retornar usuários que não bloquearam um usuario e que o usuario não o bloqueou
-
-
 }

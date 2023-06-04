@@ -47,13 +47,13 @@ CREATE TABLE blocked_users(
     FOREIGN KEY (blocked_id) REFERENCES users (id)
 );
 
-INSERT INTO users (username, password, name, email) VALUES ('admin', 'admin', 'Admin', 'admin@admin.com');
-INSERT INTO users (username, password, name, email) VALUES ('user1', 'password', 'Usuário 1', 'user1@dba.com');
-INSERT INTO users (username, password, name, email) VALUES ('user2', 'password', 'Usuário 2', 'user2@dba.com');
+INSERT INTO users (username, password, name, email) VALUES ('USER 1', 'admin', 'USER 1', 'admin@admin.com');
+INSERT INTO users (username, password, name, email) VALUES ('USER 2', 'password', 'USER 2', 'user1@dba.com');
+INSERT INTO users (username, password, name, email) VALUES ('USER 3', 'password', 'USER 3', 'user2@dba.com');
 
-INSERT INTO posts (user_id, content) VALUES (1, 'Primeiro post do Admin');
-INSERT INTO posts (user_id, content) VALUES (2, 'Primeiro post do User1');
-INSERT INTO posts (user_id, content) VALUES (3, 'Primeiro post do User2');
+INSERT INTO posts (user_id, content) VALUES (1, 'Primeiro post do USER 1');
+INSERT INTO posts (user_id, content) VALUES (2, 'Primeiro post do USER 2');
+INSERT INTO posts (user_id, content) VALUES (3, 'Primeiro post do USER 3');
 
 -- Admin enviou solicitação para o User1
 INSERT INTO  friend_requests (sender_id, receiver_id) VALUES (1, 2);
