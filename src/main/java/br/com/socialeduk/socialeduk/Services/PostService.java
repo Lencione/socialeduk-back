@@ -55,8 +55,11 @@ public class PostService {
         List<Post> posts = postRepository.findAll();
         List<User> friends = friendRepository.findFriendsByUserId(userId);
         posts = posts.stream().filter(post -> friends.contains(post.getUser())).collect(Collectors.toList());
-
         posts.sort(Comparator.comparing(Post::getCreatedAt).reversed());
+        for (Post post : posts) {
+            post.getUser().setPost(null);
+        }
         return posts;
     }
+
 }
