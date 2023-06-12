@@ -1,9 +1,13 @@
 
-<center>
-    <img src="https://github.com/Lencione/socialeduk-back/assets/44005188/77cc8aa8-4ee1-4137-bb44-f8dd58b4591b" width="300" height="300" title="SocialEduk" alt="SocialEduk"/>
-</center>
 
- <h2 align="center">Social Eduk - BACK-END</h2>
+
+
+
+ <h2 align="center">
+    <img src="https://github.com/Lencione/socialeduk-back/assets/44005188/77cc8aa8-4ee1-4137-bb44-f8dd58b4591b" width="300" height="300" title="SocialEduk" alt="SocialEduk"/>
+    <br/>
+    Social Eduk - BACK-END
+</h2>
  <p align="center">Projeto para 3º semestre - Ciência da Computação UNIFAJ</p>
 
 - #### Rotas de autenticação
