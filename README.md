@@ -64,7 +64,7 @@
           "receiver": 2
       }
       ```
-  - ![DELETE](https://img.shields.io/badge/-DELETE-red) - `/api/users/refuseFriendRequest` - Refuse a Friend request.
+  - ![POST](https://img.shields.io/badge/-POST-blue) - `/api/users/refuseFriendRequest` - Refuse a Friend request.
       ```JSON
         {
             "userId": 1,
@@ -83,7 +83,7 @@
               "content": "Conteudo do post"
           }
     ```
-  - ![DELETE](https://img.shields.io/badge/-DELETE-red) - `/api/posts/delete/{id}` - Delete Post.
+  - ![POST](https://img.shields.io/badge/-POST-blue) - `/api/posts/delete/{id}` - Delete Post.
 
 
 ### Criação do Banco de dados
