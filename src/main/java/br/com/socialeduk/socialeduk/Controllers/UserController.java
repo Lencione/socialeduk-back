@@ -58,7 +58,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/refuseFriendRequest")
+    @PostMapping("/refuseFriendRequest")
     public ResponseEntity<Response> refuseFriendRequest(@RequestBody AcceptAndRefuseFriendRequestDto request){
         try{
             return ResponseEntity.ok().body(new Response("success", "Friend request refused successfull!", userService.refuseFriendRequest(request)));
